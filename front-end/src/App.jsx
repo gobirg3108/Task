@@ -7,14 +7,10 @@ function App() {
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({
     name: "",
-    age: "",
-    email: "",
-    sex: "",
-    language: [],
-    phone: "",
-    address: "",
-    intro: "",
-    image: null, // file upload
+    region: "",
+    hobbies: "",
+    favoriteCountry: [],
+    image: null,
   });
   const [editingId, setEditingId] = useState(null);
 
@@ -33,6 +29,7 @@ function App() {
   }, []);
 
   // Handle Input Change
+
   const handleChange = (e) => {
     const { name, type, value, multiple, options, files } = e.target;
     if (type === "file") {
@@ -48,6 +45,7 @@ function App() {
   };
 
   // Submit Form
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -73,13 +71,9 @@ function App() {
 
       setForm({
         name: "",
-        age: "",
-        email: "",
-        sex: "",
+        region: "",
+        hobbies: "",
         language: [],
-        phone: "",
-        address: "",
-        intro: "",
         image: null,
       });
 
@@ -90,22 +84,20 @@ function App() {
   };
 
   // Edit User
+
   const handleEdit = (user) => {
     setForm({
       name: user.name,
-      email: user.email,
-      age: user.age,
-      sex: user.sex,
-      language: user.language || [],
-      phone: user.phone,
-      address: user.address,
-      intro: user.intro,
-      image: null, // reset, new file optional
+      region: user.region,
+      hobbies: user.hobbies,
+      favoriteCountry: user.favoriteCountry || [],
+      image: null,
     });
     setEditingId(user._id);
   };
 
   // Delete User
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API}/${id}`);
@@ -120,87 +112,51 @@ function App() {
       <h1>User Management</h1>
 
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={form.age}
-          onChange={handleChange}
-        />
-        <br />
-
-        {/* Radio */}
         <label>
-          <input type="radio" name="sex" value="Male" onChange={handleChange} />
-          Male
+          Name :{" "}
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
         </label>
+        <br /> <br />
         <label>
-          <input type="radio" name="sex" value="Female" onChange={handleChange} />
-          Female
+          {" "}
+          Region :{" "}
+          <input
+            type="text"
+            name="region"
+            value={form.region}
+            onChange={handleChange}
+          />
         </label>
-        <label>
-          <input type="radio" name="sex" value="Other" onChange={handleChange} />
-          Other
-        </label>
-        <br />
-
+        <br /> <br />
         {/* Multiple Select */}
-        <select name="language" value={form.language} onChange={handleChange} multiple>
-          <option value="Tamil">Tamil</option>
-          <option value="English">English</option>
-          <option value="Hindi">Hindi</option>
+        <label> Multiple Select : </label>
+        <br />
+        <select
+          name="favoriteCountry"
+          value={form.favoriteCountry}
+          onChange={handleChange}
+          multiple
+        >
+          <option value="Singapore">Singapore</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Spain">Spain</option>
         </select>
-        <br />
-
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={form.phone}
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={form.address}
-          onChange={handleChange}
-        />
-        <br />
-
-        {/* Textarea */}
-        <textarea
-          type="text"
-          name="intro"
-          placeholder="Describe yourself"
-          value={form.intro}
-          onChange={handleChange}
-        />
-        <br />
-
+        <br /> <br />
         {/* File Input */}
-        <input type="file" name="image" accept="image/*" onChange={handleChange} />
-        <br />
-
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleChange}
+        />
+        <br /> <br />
         <button type="submit">{editingId ? "Update" : "Add"} User</button>
       </form>
 
@@ -216,11 +172,12 @@ function App() {
               />
             )}
             <br />
-            {user.name} - {user.email} - {user.age} - {user.sex} -{" "}
-            {user.language?.join(", ")} - {user.phone} - {user.address} -{" "}
-            {user.intro}
+            {user.name} - {user.region} - {user.hobbies} -{" "}
+            {user.favoriteCountry?.join(", ")} -
             <br />
-            <button onClick={() => handleEdit(user)}>Edit</button>
+            <button style={{ margin: 10 }} onClick={() => handleEdit(user)}>
+              Edit
+            </button>
             <button onClick={() => handleDelete(user._id)}>Delete</button>
           </li>
         ))}
