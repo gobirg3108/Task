@@ -1,0 +1,20 @@
+/* import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import AddUser from "./components/AddUser";
+import UserList from "./components/UserList";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div>
+        <Navbar />
+        <div>
+          <Routes>
+            <Route path="/add" element={<AddUser />} />
+            <Route path="/list" element={<UserList />} />
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
+  );
+} */
