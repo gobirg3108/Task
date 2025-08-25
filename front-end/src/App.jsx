@@ -15,6 +15,7 @@ function App() {
   const [editingId, setEditingId] = useState(null);
 
   // Fetch Users
+
   const fetchUsers = async () => {
     try {
       const res = await axios.get(API);
@@ -51,8 +52,10 @@ function App() {
     try {
       const formData = new FormData();
       Object.keys(form).forEach((key) => {
-        if (key === "language") {
-          form.language.forEach((lang) => formData.append("language", lang));
+        if (key === "favoriteCountry") {
+          form.favoriteCountry.forEach((fvrt) =>
+            formData.append("favoriteCountry", fvrt)
+          );
         } else {
           formData.append(key, form[key]);
         }
@@ -73,7 +76,7 @@ function App() {
         name: "",
         region: "",
         hobbies: "",
-        language: [],
+        favoriteCountry: [],
         image: null,
       });
 
@@ -125,24 +128,33 @@ function App() {
         </label>
         <br /> <br />
         <label>
-          {" "}
           Region :{" "}
+          <select name="region" value={form.region} onChange={handleChange}>
+            <option value="India">India</option>
+            <option value="Italy">Italy</option>
+            <option value="Denmark">Denmark</option>
+          </select>
+        </label>
+        <br /> <br />
+        <label>
+          Hobbies :{" "}
           <input
             type="text"
-            name="region"
-            value={form.region}
+            name="hobbies"
+            value={form.hobbies}
             onChange={handleChange}
           />
         </label>
         <br /> <br />
         {/* Multiple Select */}
-        <label> Multiple Select : </label>
+        <label> Favorite Country : </label>
         <br />
         <select
           name="favoriteCountry"
           value={form.favoriteCountry}
           onChange={handleChange}
           multiple
+          style={{ margin: 10 }}
         >
           <option value="Singapore">Singapore</option>
           <option value="Brazil">Brazil</option>
@@ -150,6 +162,7 @@ function App() {
         </select>
         <br /> <br />
         {/* File Input */}
+        <label> Profile Photo : </label>
         <input
           type="file"
           name="image"
